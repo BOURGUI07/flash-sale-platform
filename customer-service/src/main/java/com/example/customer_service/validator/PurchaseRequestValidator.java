@@ -31,7 +31,7 @@ public class PurchaseRequestValidator {
         };
     }
 
-    public UnaryOperator<Mono<PurchaseRequest>> validate() {
+    public static UnaryOperator<Mono<PurchaseRequest>> validate() {
         return mono -> mono
                 .filter(hasProductCode())
                 .switchIfEmpty(ApplicationExceptions.invalidPurchaseRequest("Product code is required"))

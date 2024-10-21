@@ -13,7 +13,7 @@ public class CancelRequestValidator {
         return dto -> Objects.nonNull(dto.orderId());
     }
 
-    public UnaryOperator<Mono<CancelPurchaseRequest>> validate(){
+    public static UnaryOperator<Mono<CancelPurchaseRequest>> validate(){
         return mono -> mono
                 .filter(hasOrderId())
                 .switchIfEmpty(ApplicationExceptions.invalidCancelRequest());

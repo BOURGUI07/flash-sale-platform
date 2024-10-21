@@ -112,10 +112,11 @@ public class CustomerControllerTest {
                 .getResponseBody()
                 .as(StepVerifier::create)
                 .assertNext(response -> {
+                    var customerInformationList = response.customerInformation();
                     assertEquals(3L, response.count());
-                    assertEquals("Alice", response.customerInformation().getFirst().name());
-                    assertEquals("Bob", response.customerInformation().get(1).name());
-                    assertEquals("Charlie", response.customerInformation().getLast().name());
+                    assertEquals("Alice", customerInformationList.getFirst().name());
+                    assertEquals("Bob", customerInformationList.get(1).name());
+                    assertEquals("Charlie", customerInformationList.getLast().name());
                 })
                 .verifyComplete();
     }

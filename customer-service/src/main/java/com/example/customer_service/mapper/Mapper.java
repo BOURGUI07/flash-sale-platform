@@ -2,10 +2,7 @@ package com.example.customer_service.mapper;
 
 import com.example.customer_service.domain.Customer;
 import com.example.customer_service.domain.OrderHistory;
-import com.example.customer_service.dto.CustomerInformation;
-import com.example.customer_service.dto.CustomerRequest;
-import com.example.customer_service.dto.CustomerResponse;
-import com.example.customer_service.dto.OrderSummary;
+import com.example.customer_service.dto.*;
 import com.example.customer_service.repo.CustomerRepo;
 
 import java.util.List;
@@ -45,6 +42,34 @@ public class Mapper {
                 .name(customer.getName())
                 .balance(customer.getBalance())
                 .shippingAddress(customer.getShippingAddress())
+                .build();
+    }
+
+    public static PurchaseResponse toPurchaseResponse(Customer customer, OrderHistory orderHistory) {
+        return PurchaseResponse.builder()
+                .customerId(customer.getId())
+                .quantity(orderHistory.getQuantity())
+                .orderDate(orderHistory.getOrderDate())
+                .price(orderHistory.getPrice())
+                .productCode(orderHistory.getProductCode())
+                .balance(customer.getBalance())
+                .shippingAddress(customer.getShippingAddress())
+                .customerName(customer.getName())
+                .orderId(orderHistory.getId())
+                .orderStatus(orderHistory.getOrderStatus())
+                .productCategory(orderHistory.getProductCategory())
+                .totalPrice(orderHistory.getPrice()*orderHistory.getQuantity())
+                .build();
+    }
+
+    public static CancelPurchaseResponse toCancelPurchaseResponse(Customer customer, OrderHistory orderHistory) {
+        return CancelPurchaseResponse.builder()
+                .customerId(customer.getId())
+                .orderId(orderHistory.getId())
+                .orderStatus(orderHistory.getOrderStatus())
+                .balance(customer.getBalance())
+                .orderDate(orderHistory.getOrderDate())
+                .productCode(orderHistory.getProductCode())
                 .build();
     }
 }

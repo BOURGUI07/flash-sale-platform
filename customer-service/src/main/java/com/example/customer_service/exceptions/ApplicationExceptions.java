@@ -7,6 +7,10 @@ public class ApplicationExceptions {
         return Mono.error(new CustomerNotFoundException(customerId));
     }
 
+    public static <T> Mono<T> orderNotFound(Integer orderId) {
+        return Mono.error(new OrderNotFoundException(orderId));
+    }
+
     public static <T> Mono<T> customerAlreadyExists(String customerName) {
         return Mono.error(new CustomerAlreadyExistsException(customerName));
     }
@@ -25,5 +29,9 @@ public class ApplicationExceptions {
 
     public static <T> Mono<T> invalidCancelRequest() {
         return Mono.error(new InvalidCancelPurchaseRequestException());
+    }
+
+    public static <T> Mono<T> cannotBeCancelled(Integer orderId) {
+        return Mono.error(new OrderCannotBeCancelledException(orderId));
     }
 }
