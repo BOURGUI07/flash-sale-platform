@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 public class ProductController {
     private final ProductService service;
 
-    @GetMapping(("/purchase-request"))
+    @PostMapping(("/purchase-request"))
     public Mono<PurchaseResponse> getProductInformation(
             @RequestBody Mono<PurchaseRequest> request
     ){
