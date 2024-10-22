@@ -39,6 +39,7 @@ public class ProductServiceClient {
                 case "Invalid Product Purchase Request" -> ApplicationExceptions.invalidPurchaseRequest(message);
                 case "Not Enough Inventory" -> ApplicationExceptions.notEnoughInventory(message);
                 case "Invalid Product Purchase Process Request" -> ApplicationExceptions.invalidProcessRequest(message);
+                case "Invalid Product Cancel Process Request" -> ApplicationExceptions.invalidCancelProcessRequest(message);
                 default -> ApplicationExceptions.generalBadRequest(message);
             };
         }
@@ -63,6 +64,17 @@ public class ProductServiceClient {
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(ProductPurchaseProcessResponse.class)
+                .onErrorResume(WebClientResponseException.NotFound.class, this::handleProductNotFoundException)
+                .onErrorResume(WebClientResponseException.BadRequest.class, this::handleProductRequestBadRequest);
+    }
+
+    public Mono<ProductCancelProcessResponse> processCancel(ProductCancelProcessRequest request) {
+        return webClient
+                .post()
+                .uri("/products/process-cancel")
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(ProductCancelProcessResponse.class)
                 .onErrorResume(WebClientResponseException.NotFound.class, this::handleProductNotFoundException)
                 .onErrorResume(WebClientResponseException.BadRequest.class, this::handleProductRequestBadRequest);
     }

@@ -5,6 +5,7 @@ import com.example.product_service.dto.*;
 import com.example.product_service.exceptions.ApplicationExceptions;
 import com.example.product_service.mapper.Mapper;
 import com.example.product_service.repo.ProductRepo;
+import com.example.product_service.validator.CancelProcessRequestValidator;
 import com.example.product_service.validator.ProcessRequestValidator;
 import com.example.product_service.validator.ProductRequestValidator;
 import com.example.product_service.validator.PurchaseRequestValidator;
@@ -82,19 +83,35 @@ public class ProductService {
     }
 
     @Transactional
-    public Mono<ProductPurchaseProcessResponse> process(Mono<ProductPurchaseProcessRequest> request){
+    public Mono<ProductPurchaseProcessResponse> processPurchase(Mono<ProductPurchaseProcessRequest> request){
         return request
                 .transform(ProcessRequestValidator.validate())
                 .zipWhen(req -> repo.findByProductCode(req.productCode())
                 .switchIfEmpty(ApplicationExceptions.productNotFound(req.productCode())))
-                .flatMap(x-> executeProcess(x.getT1(),x.getT2()));
+                .flatMap(x-> executePurchaseProcess(x.getT1(),x.getT2()));
 
     }
 
-    private Mono<ProductPurchaseProcessResponse> executeProcess(ProductPurchaseProcessRequest request, Product product) {
+    private Mono<ProductPurchaseProcessResponse> executePurchaseProcess(ProductPurchaseProcessRequest request, Product product) {
         product.setAvailableQuantity(product.getAvailableQuantity()-request.desiredQuantity());
         return repo.save(product)
                 .thenReturn(Mapper.toProductPurchaseProcessResponse(request));
+    }
+
+    @Transactional
+    public Mono<ProductCancelProcessResponse> processCancel(Mono<ProductCancelProcessRequest> request){
+        return request
+                .transform(CancelProcessRequestValidator.validate())
+                .zipWhen(req -> repo.findByProductCode(req.productCode())
+                        .switchIfEmpty(ApplicationExceptions.productNotFound(req.productCode())))
+                .flatMap(x-> executeCancelProcess(x.getT1(),x.getT2()));
+
+    }
+
+    private Mono<ProductCancelProcessResponse> executeCancelProcess(ProductCancelProcessRequest request, Product product) {
+        product.setAvailableQuantity(product.getAvailableQuantity()+request.returnedQuantity());
+        return repo.save(product)
+                .thenReturn(Mapper.toProductCancelProcessResponse(request));
     }
 
 

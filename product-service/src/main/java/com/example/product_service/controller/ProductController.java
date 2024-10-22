@@ -25,7 +25,14 @@ public class ProductController {
     public Mono<ProductPurchaseProcessResponse> processProductPurchase(
             @RequestBody Mono<ProductPurchaseProcessRequest> request
     ){
-        return service.process(request);
+        return service.processPurchase(request);
+    }
+
+    @PostMapping("/process-cancel")
+    public Mono<ProductCancelProcessResponse> processProductCancel(
+            @RequestBody Mono<ProductCancelProcessRequest> request
+    ){
+        return service.processCancel(request);
     }
 
     @PostMapping

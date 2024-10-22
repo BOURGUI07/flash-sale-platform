@@ -79,4 +79,9 @@ public class ApplicationExceptionHandler {
     public ProblemDetail handleInvalidProductPurchaseProcessRequest(InvalidPurchaseProcessRequestException ex) {
         return handleException(ex, HttpStatus.BAD_REQUEST, "Invalid Product Purchase Process Request");
     }
+
+    @ExceptionHandler(InvalidCancelProcessRequestException.class)
+    public ProblemDetail handleInvalidProductCancelProcessRequest(InvalidCancelProcessRequestException ex) {
+        return handleException(ex, HttpStatus.BAD_REQUEST, "Invalid Product Cancel Process Request");
+    }
 }

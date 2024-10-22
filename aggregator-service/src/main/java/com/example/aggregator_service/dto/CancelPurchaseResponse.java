@@ -11,6 +11,7 @@ public record CancelPurchaseResponse(
         String productCode,
         Integer customerId,
         Integer balance,
+        Integer returnedQuantity,
         OrderStatus orderStatus,
         Instant orderDate
 ) {

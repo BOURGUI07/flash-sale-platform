@@ -41,4 +41,11 @@ public class Mapper {
                 .desiredQuantity(request.desiredQuantity())
                 .build();
     }
+
+    public static ProductCancelProcessResponse toProductCancelProcessResponse(ProductCancelProcessRequest request) {
+        return ProductCancelProcessResponse.builder()
+                .productCode(request.productCode())
+                .returnedQuantity(request.returnedQuantity())
+                .build();
+    }
 }

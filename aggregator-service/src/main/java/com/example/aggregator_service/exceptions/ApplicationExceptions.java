@@ -51,6 +51,10 @@ public class ApplicationExceptions {
         return Mono.error(new InvalidPurchaseProcessRequestException(message));
     }
 
+    public static <T> Mono<T> invalidCancelProcessRequest(String message) {
+        return Mono.error(new InvalidCancelProcessRequestException(message));
+    }
+
     public static <T> Mono<T> notEnoughInventory(String message) {
         return Mono.error(new NotEnoughInventoryException(message));
     }
@@ -62,4 +66,6 @@ public class ApplicationExceptions {
     public static <T> Mono<T> generalNotFound(String message) {
         return Mono.error(new GeneralNotFoundException(message));
     }
+
+
 }

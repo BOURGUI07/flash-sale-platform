@@ -70,6 +70,7 @@ public class Mapper {
                 .balance(customer.getBalance())
                 .orderDate(orderHistory.getOrderDate())
                 .productCode(orderHistory.getProductCode())
+                .returnedQuantity(orderHistory.getQuantity())
                 .build();
     }
 }
