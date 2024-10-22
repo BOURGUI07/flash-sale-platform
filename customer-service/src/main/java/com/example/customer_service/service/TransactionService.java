@@ -63,10 +63,7 @@ public class TransactionService {
                         .flatMap(req ->
                             orderRepo.findByIdAndCustomerId(customer.getId(), req.orderId())
                                     .switchIfEmpty(ApplicationExceptions.orderNotFound(req.orderId()))
-                                    .filter(Predicate.not(orderHistory ->{
-                                        var status = orderHistory.getOrderStatus();
-                                        return status.equals(OrderStatus.SHIPPED) || status.equals(OrderStatus.CANCELLED);
-                                    } ))
+                                    .filter(orderHistory -> orderHistory.getOrderStatus().equals(OrderStatus.PENDING))
                                     .switchIfEmpty(ApplicationExceptions.cannotBeCancelled(req.orderId()))
                         ))
                 .flatMap(x -> executeCancel(x.getT1(),x.getT2()));

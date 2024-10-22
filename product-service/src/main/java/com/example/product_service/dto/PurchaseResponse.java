@@ -8,8 +8,7 @@ public record PurchaseResponse(
         String productCode,
         Integer currentPrice,
         ProductCategory productCategory,
-        Integer desiredQuantity,
-        Boolean isProductAvailable
+        Integer desiredQuantity
 ) {
 
 

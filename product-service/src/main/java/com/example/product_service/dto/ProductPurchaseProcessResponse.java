@@ -5,7 +5,6 @@ import lombok.Builder;
 @Builder
 public record ProductPurchaseProcessResponse(
         String productCode,
-        Integer desiredQuantity,
-        Boolean processed
+        Integer desiredQuantity
 ) {
 }
